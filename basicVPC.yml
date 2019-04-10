@@ -206,7 +206,7 @@ Parameters:
   InstanceType:
     Description: WebServer EC2 instance type
     Type: String
-    Default: t1.micro
+    Default: t2.micro
     AllowedValues:
     - t1.micro
     - t2.nano
@@ -519,7 +519,7 @@ Mappings:
       HVMG2: ami-c212aba1
     ap-southeast-2:
       PV64: ami-63351d00
-      HVM64: ami-dc361ebf
+      HVM64: ami-04481c741a0311bbb
       HVMG2: ami-0ad2db69
     ap-south-1:
       PV64: NOT_SUPPORTED
