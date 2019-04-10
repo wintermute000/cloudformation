@@ -1,0 +1,1 @@
+aws cloudformation create-stack --stack-name my-first-cloudformation --template-body file://my-first-cloudformation.yml

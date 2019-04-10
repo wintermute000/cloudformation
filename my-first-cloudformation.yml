@@ -1,0 +1,63 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: VPC in Terralabby
+Resources:
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VPCCIDR
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: MyVPCInfrastructure as Code 313
+        - Key: Environment
+          Value: Testing
+  MySubnet2c:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: !Ref SubnetAZ
+      CidrBlock: !Ref SubnetCIDR
+      Tags:
+      - Key: Name
+        Value: MySubnet2c
+      VpcId: !Ref MyVPC
+  MyRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MyVPC
+  MySubnet2cRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref MyRouteTable
+      SubnetId: !Ref MySubnet2c
+  MyInternetGateway:
+    Type: AWS::EC2::InternetGateway
+  MyGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId: !Ref MyInternetGateway
+      VpcId: !Ref MyVPC
+  MyDefaultRoute:
+    Type: AWS::EC2::Route
+    DependsOn: MyGatewayAttachment
+    Properties:
+      DestinationCidrBlock: "0.0.0.0/0"
+      GatewayId: !Ref MyInternetGateway
+      RouteTableId: !Ref MyRouteTable
+
+Parameters:
+  VPCCIDR:
+    Type: String
+    Default: "172.17.0.0/16"
+    Description: The CIDR range to assign to the VPC.
+    AllowedPattern: "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}/[0-9]{1,2}"
+    ConstraintDescription: An IPv4 block in CIDR notation is required, e.g. 10.17.0.0/16
+  SubnetAZ:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Default: ap-southeast-2a
+    Description: The availability zone to assign to the subnet.
+  SubnetCIDR:
+    Type: String
+    Default: "172.17.1.0/24"
+    Description: The CIDR range to assign to the subnet.
+    AllowedPattern: "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}/[0-9]{1,2}"
+    ConstraintDescription: An IPv4 block in CIDR notation is required, e.g. 10.17.1.0/24
