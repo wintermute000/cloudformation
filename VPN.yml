@@ -80,7 +80,7 @@ Resources:
     Properties:
       RouteTableId: !Ref RouteTablePrivate
       SubnetId: !Ref SubnetPriv01
-  RouteTableAssociationPrivate01:
+  RouteTableAssociationPrivate02:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       RouteTableId: !Ref RouteTablePrivate
@@ -221,7 +221,7 @@ Resources:
     Properties:
       VpnGatewayId: !Ref VPNGateway   
       VpcId: !Ref VPC01
-  VPNConnection:
+  VPNConnection01:
     Type: AWS::EC2::VPNConnection
     Properties:
       Type: ipsec.1
@@ -229,22 +229,13 @@ Resources:
       VpnGatewayId: !Ref VPNGateway
       Tags:
        - Key: Name
-         Value: Tunnel1
+         Value: VPNTunnel
       VpnTunnelOptionsSpecifications: 
       - PreSharedKey: Cisco123
-      - TunnelInsideCidr: 169.254.32.188/30
-  VPNConnection:
-    Type: AWS::EC2::VPNConnection
-    Properties:
-      Type: ipsec.1
-      CustomerGatewayId: !Ref CustomerGateway01
-      VpnGatewayId: !Ref VPNGateway
-      Tags:
-       - Key: Name
-         Value: Tunnel2
-      VpnTunnelOptionsSpecifications: 
+        TunnelInsideCidr: 169.254.254.4/30
       - PreSharedKey: Cisco123
-      - TunnelInsideCidr: 169.254.34.76/30
+        TunnelInsideCidr: 169.254.254.8/30
+
 #
 Parameters:
   VPCCIDR:

@@ -80,7 +80,7 @@ Resources:
     Properties:
       RouteTableId: !Ref RouteTablePrivate
       SubnetId: !Ref SubnetPriv01
-  RouteTableAssociationPrivate01:
+  RouteTableAssociationPrivate02:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       RouteTableId: !Ref RouteTablePrivate
